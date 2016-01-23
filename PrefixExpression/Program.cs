@@ -22,7 +22,42 @@
                     }
                     else
                     {
+                        var split = line.Split(' ');
+                        var stack = new Stack<String>();
+                        var operators = new List<String>{"+", "*", "/"};
+                        for (int i = split.Length-1; i >= 0; i--)
+                        {
+                            if(operators.Contains(split[i]))
+                            {
+                                if(stack.Count() >= 2)
+                                {
+                                    var num1 = Convert.ToInt32(stack.Pop());
+                                    var num2 = Convert.ToInt32(stack.Pop());
+                                    if (split[i].Equals("*"))
+                                    {
+                                        var result = num1 * num2;
+                                        stack.Push(result.ToString());
+                                    }
+                                    else if (split[i].Equals("/"))
+                                    {
+                                        var result = num1 / num2;
+                                        stack.Push(result.ToString());
+                                    }
+                                    else if (split[i].Equals("+"))
+                                    {
+                                        var result = num1 + num2;
+                                        stack.Push(result.ToString());
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                // Must be an operand
+                                stack.Push(split[i]);
+                            }
+                        }
 
+                        Console.WriteLine(stack.Pop());
                     }
                 }
             }
